@@ -1,13 +1,14 @@
 var express = require('express'),
-product = require('./model/products');
- 
+Product = require('./model/products');
+Pricing = require('./model/pricings');
 var app = express();
 
 app.use(express.bodyParser());
 
-app.get('/products',product.getAllProducts);
-app.post('/products',product.addProduct);
-app.get('/products/:id',product.getProductById);
+app.get('/products',Product.getAllProducts);
+app.post('/products',Product.addProduct);
+app.get('/products/:id',Product.getProductById);
+app.get('/products/:id/pricings',Product.getAllPricings);
 
 app.listen(3000);
 console.log("Listening on port 3000...");

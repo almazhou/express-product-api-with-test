@@ -1,13 +1,24 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/product-api');
 
 var Schema = mongoose.Schema;  
 var Product = new Schema({  
   name: { type: String, required: true },  
-  product_id: { type: Number, required: true },  
+  product_id: { type: Number, required: true },
+  pricings:[{type:Schema.Types.ObjectId,ref:'Pricing'}],  
   modified: { type: Date, default: Date.now }
 });
-var ProductModel = mongoose.model('Product', Product);
+
+Product.methods.addPricing = function(pricing,callback){
+  var product = this;
+  this.pricings.push(pricing);
+  this.save(function(err){
+    pricing.product = product;
+    pricing.save(callback);
+  })
+}
+
+ProductModel = mongoose.model('Product', Product);
+
 
 exports.getSchema = function(){
   return Product;
@@ -52,5 +63,20 @@ exports.getProductById = function(req,res){
       return console.log(err);
     }
   });
+
 };
+
+exports.getAllPricings = function(req,res){
+  ProductModel.findById(req.params.id, function (err, product) {
+    if(!err){
+      if(product){
+        return res.send(product.pricings);
+      }
+      return res.send(404);
+    }else{
+      return res.send(500);
+    }
+
+  });
+}
 
