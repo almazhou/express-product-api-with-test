@@ -7,6 +7,7 @@
     "express": "3.x"
   },
   "devDependencies": {
+    "mockgoose": "^1.10.0",
     "should": "^4.0.4"
   }
 }
