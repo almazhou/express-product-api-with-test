@@ -5,8 +5,8 @@ var mongoose = require("mongoose");
 var mockgoose = require("mockgoose");
 mockgoose(mongoose);
 var ProductModel = mongoose.model("Product");
-
-request1 = request('http://localhost:3000');
+var url = 'http://localhost:3000';
+request1 = request(url);
 describe('GET /products or /prducts/:id', function(){
     product_new = null;
     beforeEach(function (done) {
@@ -87,7 +87,12 @@ describe('POST /products successful', function(){
         .post('/products')
         .send({name:"testName",
             product_id:4})
-        .expect(201,done);
+        .expect(201)
+        .end(function(err,res){
+            location = res.header.location;
+            location.should.containEql("/products/");
+            done();
+        });
     });
     afterEach(function (done) {
             mockgoose.reset();
