@@ -28,20 +28,18 @@ exports.getAllProducts = function(req,res){
 
 exports.addProduct = function(req,res){
   var product;
-  console.log("POST: ");
-  console.log(req.body);
   product = new ProductModel({
     name: req.body.name,
     product_id: req.body.product_id
   });
-  product.save(function (err) {
-    if (!err) {
-      return console.log("created");
-    } else {
+
+  product.save(function (err,req,res) {
+    if (err) {
       return console.log(err);
     }
   });
-  return res.send(product);
+  res.location('/products/' + product._id);
+  return res.send(201);
 };
 exports.getProductById = function(req,res){
   ProductModel.findById(req.params.id, function (err, product) {

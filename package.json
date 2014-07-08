@@ -1,9 +1,12 @@
 {
-    "name": "product-api",
-    "description": "create api for product and pricing",
-    "version": "0.0.1",
-    "private": true,
-    "dependencies": {
-        "express": "3.x"
-    }
+  "name": "product-api",
+  "description": "create api for product and pricing",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  },
+  "devDependencies": {
+    "should": "^4.0.4"
+  }
 }

@@ -3,8 +3,10 @@ product = require('./model/products');
  
 var app = express();
 
+app.use(express.bodyParser());
+
 app.get('/products',product.getAllProducts);
-// app.post('/products',product.addProduct);
+app.post('/products',product.addProduct);
 app.get('/products/:id',product.getProductById);
 
 app.listen(3000);
