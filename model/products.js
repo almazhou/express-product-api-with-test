@@ -16,6 +16,9 @@ exports.getSchema = function(){
 exports.getAllProducts = function(req,res){
 	ProductModel.find(function (err, products) {
     if (!err) {
+      if(products.length === 0){
+        return res.send(404);
+      }
       return res.send(products);
     } else {
       return console.log(err);

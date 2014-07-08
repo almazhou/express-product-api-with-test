@@ -31,6 +31,8 @@ describe('GET /products', function(){
     });
   });
 
+
+
   it('should respond with 200 for get one product with id', function(done){
     request
     .get('/products/'+product_new._id)
@@ -47,5 +49,15 @@ describe('GET /products', function(){
     });
   });
 });
+describe('returns 404', function(){
+    beforeEach(function (done) {
+        ProductModel.remove().exec(done);
+        });
+  it('should respond with 404 for get all products', function(done){
+    request
+    .get('/products/')
+    .expect(404,done);
+  });
+  });
 
 
