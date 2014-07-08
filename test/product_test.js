@@ -48,8 +48,16 @@ describe('GET /products', function(){
         done();
     });
   });
+
+    it('returns 404 for get id failed', function(done){
+    request
+    .get('/products/'+"53bb642a19cb742d22b8b9d4")
+    .set('Accept', 'application/json')
+    .expect(404,done);
+    
+  });
 });
-describe('returns 404', function(){
+describe('returns 404 for get get all products failed', function(){
     beforeEach(function (done) {
         ProductModel.remove().exec(done);
         });

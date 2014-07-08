@@ -3,9 +3,9 @@ mongoose.connect('mongodb://localhost/product-api');
 
 var Schema = mongoose.Schema;  
 var Product = new Schema({  
-    name: { type: String, required: true },  
-    product_id: { type: Number, required: true },  
-    modified: { type: Date, default: Date.now }
+  name: { type: String, required: true },  
+  product_id: { type: Number, required: true },  
+  modified: { type: Date, default: Date.now }
 });
 var ProductModel = mongoose.model('Product', Product);
 
@@ -46,7 +46,10 @@ exports.addProduct = function(req,res){
 exports.getProductById = function(req,res){
   ProductModel.findById(req.params.id, function (err, product) {
     if (!err) {
-      return res.send(product);
+      if(product){
+        return res.send(product);
+      }
+      return res.send(404);
     } else {
       return console.log(err);
     }
