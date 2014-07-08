@@ -40,8 +40,8 @@ exports.addProduct = function(req,res){
   });
   return res.send(product);
 };
-exports.getProductId = function(res,req){
-  ProductModel.findById(req.params.product_id, function (err, product) {
+exports.getProductById = function(req,res){
+  ProductModel.findById(req.params.id, function (err, product) {
     if (!err) {
       return res.send(product);
     } else {

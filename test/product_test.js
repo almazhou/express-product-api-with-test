@@ -8,16 +8,16 @@ var ProductModel = mongoose.model("Product",product_schema);
 
 request = request('http://localhost:3000');
 describe('GET /products', function(){
-
+    product_new = null;
 	beforeEach(function (done) {
 		ProductModel.remove().exec();
-        var product_new = new ProductModel({name:"test",product_id:2});
+        product_new = new ProductModel({name:"test",product_id:2});
         product_new.save(done);
         });
 
-  it('respond with json', function(done){
+  it('should respond with 200 for get all products', function(done){
     request
-    .get('/products')
+    .get('/products/')
     .set('Accept', 'application/json')
     .expect(200)
     .end(function(err,response){
@@ -28,6 +28,22 @@ describe('GET /products', function(){
         product.should.have.property("name","test");
     	product.should.have.property("product_id","2");
     	done();
+    });
+  });
+
+  it('should respond with 200 for get one product with id', function(done){
+    request
+    .get('/products/'+product_new._id)
+    .set('Accept', 'application/json')
+    .expect(200)
+    .end(function(err,response){
+        if(err){
+            done(err);
+        }
+        var product = response.body
+        product.should.have.property("name","test");
+        product.should.have.property("product_id","2");
+        done();
     });
   });
 });
