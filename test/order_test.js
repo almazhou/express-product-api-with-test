@@ -53,3 +53,27 @@ describe("/GET",function(){
 		done();
 	});
 });
+
+describe("/POST",function(){
+	beforeEach(function(done){
+		mockgoose.reset();
+		customer = new Customer({name:"test"});
+		customer.save(done);
+	});
+
+	it("should return 201 when post one order",function(done){
+		request
+		.post("/customers/" + customer._id + "/orders")
+		.send({totalCost:45})
+		.expect(201,function(err,res){
+			var location = res.header.location;
+			location.should.containEql("/customers/" + customer._id + "/orders/");
+			done();
+		});
+	});
+
+	afterEach(function(done){
+		mockgoose.reset();
+		done();
+	});
+});

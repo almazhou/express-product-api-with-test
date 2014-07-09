@@ -63,13 +63,28 @@ var getOrderById = function (req,res){
 	});
 }
 
+var placeOrder = function (req,res){
+	var order = new OrderModel({totalCost: req.body.totalCost});
+	CustomerModel.findById(req.params.id,function (err,customer){
+		if(!err){
+			if(customer){
+				customer.placeOrder(order);
+				res.location("/customers/" + customer._id + "/orders/" + order._id);
+				return res.send(201);
+			}
+			return res.send(404);
+		}
+		return res.send(500);
+	});
+}
+
 var customerRouter = express.Router();
 
 customerRouter.route("/").get(getAllCustomers).post(addCustomer);
 
 customerRouter.route("/:id").get(getCustomerById);
 
-customerRouter.route("/:id/orders").get(getAllOrders);
+customerRouter.route("/:id/orders").get(getAllOrders).post(placeOrder);
 
 customerRouter.route("/:id/orders/:orderId").get(getOrderById);
 
