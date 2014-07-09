@@ -45,25 +45,22 @@ describe("/GET all pricings",function(){
     });
   });
 
+  it("should return 404 when cannot find product",function(done){
+    request
+    .get("/products/"+"nothingmatchthisproducts"+"/pricings")
+    .expect(404,done);
+  });
+
+   it("should return 404 when cannot find pricing by id",function(done){
+    request
+    .get("/products/"+product_new._id+"/pricings/"+"nothingmatchthispricings")
+    .expect(404,done);
+  });
+
      afterEach(function (done) {
       mockgoose.reset();
       done();
   });
 
-
-
-
 });
 
-describe("test 404",function(){
-     beforeEach(function (done) {
-      mockgoose.reset();
-      done();
-  });
-
-    it("should return 404 when cannot find product",function(done){
-    request
-    .get("/products/"+product_new._id+"/pricings")
-    .expect(404,done);
-  });
-})

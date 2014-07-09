@@ -81,7 +81,6 @@ exports.getAllPricings = function(req,res){
 }
 
 exports.getPricingById = function(req,res){
-  console.log("I ame here now");
   PricingModel.findOne({_id:req.params.pricingId,product:req.params.id},function(err,pricing){
     if(!err){
       if(pricing){
