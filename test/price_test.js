@@ -31,6 +31,20 @@ describe("/GET all pricings",function(){
       done();
     });
 	});
+
+
+  it("should return 200 when get specific pricing",function(done){
+    request
+    .get("/products/"+product_new._id+"/pricings/"+pricing._id)
+    .expect(200,function(err,res){
+      var body = res.body;
+      body.should.have.property("amount","45");
+      body.should.have.property("_id",String(pricing._id));
+      body.should.have.property("product",String(product_new._id));
+      done();
+    });
+  });
+
      afterEach(function (done) {
       mockgoose.reset();
       done();

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var PricingModel = require("./pricings");
 
 var Schema = mongoose.Schema;  
 var Product = new Schema({  
@@ -18,7 +19,6 @@ Product.methods.addPricing = function(pricing,callback){
 }
 
 ProductModel = mongoose.model('Product', Product);
-
 
 exports.getSchema = function(){
   return Product;
@@ -77,6 +77,20 @@ exports.getAllPricings = function(req,res){
       return res.send(500);
     }
 
+  });
+}
+
+exports.getPricingById = function(req,res){
+  console.log("I ame here now");
+  PricingModel.findOne({_id:req.params.pricingId,product:req.params.id},function(err,pricing){
+    if(!err){
+      if(pricing){
+        return res.send(pricing);
+      }
+      return res.send(404);
+    }else{
+      return res.send(500);
+    }
   });
 }
 
