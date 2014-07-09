@@ -42,7 +42,7 @@ describe("/GET",function(){
 		});
 	});
 
-	it("should return 404 for get one order failed",function(done){
+	it("should return 404 for get one order failed",function (done){
 		request
 		.get("/customers/" + customer._id + "/orders/" +"nosuchorderfoundinthismo")
 		.expect(404,done);

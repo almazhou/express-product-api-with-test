@@ -1,6 +1,7 @@
 var express = require("express");
 var CustomerModel = require("../model/customer");
 var OrderModel = require("../model/order");
+var PaymentModel = require("../model/payment");
 
 var getAllCustomers = function (req,res){
 	CustomerModel.find(function (err, customers) {
@@ -78,6 +79,18 @@ var placeOrder = function (req,res){
 	});
 }
 
+var getPaymentOfOrder = function (req,res){
+	PaymentModel.findOne({customer:req.params.id, order:req.params.orderId},function(err,payment){
+		if(!err){
+			if(payment){
+				return res.send(payment);
+			}
+			return res.send(404);
+		}
+		return res.send(500);
+	});
+}
+
 var customerRouter = express.Router();
 
 customerRouter.route("/").get(getAllCustomers).post(addCustomer);
@@ -87,5 +100,7 @@ customerRouter.route("/:id").get(getCustomerById);
 customerRouter.route("/:id/orders").get(getAllOrders).post(placeOrder);
 
 customerRouter.route("/:id/orders/:orderId").get(getOrderById);
+
+customerRouter.route("/:id/orders/:orderId/payment").get(getPaymentOfOrder);
 
 module.exports = customerRouter;
