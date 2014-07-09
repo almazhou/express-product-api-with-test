@@ -40,10 +40,33 @@ describe("/GET",function(){
 		request
 		.get("/customers/"+"cannotfindcustomerbyidno")
 		.expect(404,done);
-	})
+	});
 
 	afterEach(function(done){
 		mockgoose.reset();
 		done();
 	});
+});
+
+describe("/POST",function(){
+	beforeEach(function(done){
+		mockgoose.reset();
+		done();
+	});
+
+	it("should get 201 when post one customer",function(done){
+		request
+		.post("/customers")
+		.send({name:"test"})
+		.expect(201,function(err,res){
+			var location = res.header.location;
+			location.should.containEql("/customers/");
+			done();
+		})
+	});
+
+	afterEach(function(done){
+		mockgoose.reset();
+		done();
+	})
 });

@@ -27,9 +27,20 @@ var getCustomerById = function (req,res){
 	});
 }
 
+var addCustomer = function(req,res){
+	var customer = new CustomerModel({name:req.body.name});
+	customer.save(function (err,req,res){
+		if (err) {
+			return res.send(500);
+		} 
+	});
+	res.location("/customers/"+customer._id);
+    return res.send(201);
+}
+
 var customerRouter = express.Router();
 
-customerRouter.route("/").get(getAllCustomers);
+customerRouter.route("/").get(getAllCustomers).post(addCustomer);
 
 customerRouter.route("/:id").get(getCustomerById);
 
