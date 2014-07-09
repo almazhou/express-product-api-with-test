@@ -4,9 +4,10 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "3.x"
+    "express": "~4.0.0"
   },
   "devDependencies": {
+    "body-parser": "^1.4.3",
     "mockgoose": "^1.10.0",
     "should": "^4.0.4"
   }

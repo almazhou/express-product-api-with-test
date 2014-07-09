@@ -62,7 +62,8 @@ describe('GET /products or /prducts/:id', function(){
 });
 describe('GET /products failed', function(){
     beforeEach(function (done) {
-        ProductModel.remove().exec(done);
+        mockgoose.reset();
+        done();
     });
 
     it('should respond with 404 for get all products', function(done){
