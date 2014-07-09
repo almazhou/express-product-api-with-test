@@ -1,7 +1,8 @@
+var express = require('express');
 var PricingModel = require("../model/pricing");
 var ProductModel = require("../model/product");
 
-exports.getAllProducts = function(req,res){
+var getAllProducts = function(req,res){
 	ProductModel.find(function (err, products) {
     if (!err) {
       if(products.length === 0){
@@ -14,7 +15,7 @@ exports.getAllProducts = function(req,res){
   });
 };
 
-exports.addProduct = function(req,res){
+var addProduct = function(req,res){
   var product;
   product = new ProductModel({
     name: req.body.name,
@@ -29,7 +30,7 @@ exports.addProduct = function(req,res){
   res.location('/products/' + product._id);
   return res.send(201);
 };
-exports.getProductById = function(req,res){
+var getProductById = function(req,res){
   ProductModel.findById(req.params.id, function (err, product) {
     if (!err) {
       if(product){
@@ -43,7 +44,7 @@ exports.getProductById = function(req,res){
 
 };
 
-exports.getAllPricings = function(req,res){
+var getAllPricings = function(req,res){
   ProductModel.findById(req.params.id, function (err, product) {
     if(!err){
       if(product){
@@ -57,7 +58,7 @@ exports.getAllPricings = function(req,res){
   });
 }
 
-exports.getPricingById = function(req,res){
+var getPricingById = function(req,res){
   PricingModel.findOne({_id:req.params.pricingId,product:req.params.id},function (err,pricing){
     if(!err){
       if(pricing){
@@ -70,7 +71,7 @@ exports.getPricingById = function(req,res){
   });
 }
 
-exports.addPricingToProduct = function(req,res){
+var addPricingToProduct = function(req,res){
   var pricing = new PricingModel({amount:req.body.amount});
   ProductModel.findOne(req.params.id,function (err,product){
     if(!err){
@@ -83,6 +84,25 @@ exports.addPricingToProduct = function(req,res){
     }else{
       return res.send(500);
     }
-  })
+  });
 }
+
+var productRouter = express.Router();
+
+productRouter.route('/')
+.get(getAllProducts)
+.post(addProduct);
+
+productRouter.route('/:id')
+.get(getProductById);
+
+productRouter.route('/:id/pricings')
+.get(getAllPricings)
+.post(addPricingToProduct);
+
+productRouter.route('/:id/pricings/:pricingId')
+.get(getPricingById);
+
+module.exports = productRouter;
+
 
