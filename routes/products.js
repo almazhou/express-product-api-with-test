@@ -89,19 +89,13 @@ var addPricingToProduct = function(req,res){
 
 var productRouter = express.Router();
 
-productRouter.route('/')
-.get(getAllProducts)
-.post(addProduct);
+productRouter.route('/').get(getAllProducts).post(addProduct);
 
-productRouter.route('/:id')
-.get(getProductById);
+productRouter.route('/:id').get(getProductById);
 
-productRouter.route('/:id/pricings')
-.get(getAllPricings)
-.post(addPricingToProduct);
+productRouter.route('/:id/pricings').get(getAllPricings).post(addPricingToProduct);
 
-productRouter.route('/:id/pricings/:pricingId')
-.get(getPricingById);
+productRouter.route('/:id/pricings/:pricingId').get(getPricingById);
 
 module.exports = productRouter;
 
