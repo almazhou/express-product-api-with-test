@@ -32,7 +32,7 @@ describe("/GET",function(){
 		});
 	});
 
-	it("should return 200 for get one order",function(done){
+	it("should return 200 for get one order success",function(done){
 		request
 		.get("/customers/" + customer._id + "/orders/" +order._id)
 		.expect(200,function (err,res){
@@ -40,6 +40,12 @@ describe("/GET",function(){
 			orderJson.should.have.property("totalCost","45");
 			done();	
 		});
+	});
+
+	it("should return 404 for get one order failed",function(done){
+		request
+		.get("/customers/" + customer._id + "/orders/" +"nosuchorderfoundinthismo")
+		.expect(404,done);
 	});
 
 	afterEach(function(done){

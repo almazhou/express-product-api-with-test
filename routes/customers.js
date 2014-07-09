@@ -57,7 +57,7 @@ var getOrderById = function (req,res){
 			if(order){
 				return res.send(order);
 			}
-			return res.send(400);
+			return res.send(404);
 		}
 		return res.send(500);
 	});
