@@ -1,5 +1,6 @@
 var express = require("express");
 var CustomerModel = require("../model/customer");
+var OrderModel = require("../model/order");
 
 var getAllCustomers = function (req,res){
 	CustomerModel.find(function (err, customers) {
@@ -38,10 +39,24 @@ var addCustomer = function(req,res){
     return res.send(201);
 }
 
+var getAllOrders = function(req,res){
+	OrderModel.find({customer: req.params.id},function(err,orders){
+		if(!err){
+			if(orders.length !== 0){
+				return res.send(orders);
+			}
+			return res.send(404);
+		}else{
+			return res.send(500);
+		}
+	});
+}
+
 var customerRouter = express.Router();
 
 customerRouter.route("/").get(getAllCustomers).post(addCustomer);
 
 customerRouter.route("/:id").get(getCustomerById);
 
+customerRouter.route("/:id/orders").get(getAllOrders);
 module.exports = customerRouter;
