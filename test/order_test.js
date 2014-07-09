@@ -24,12 +24,21 @@ describe("/GET",function(){
 
 	it("should return 200 for get all orders",function(done){
 		request
-		.get("/customers/"+customer._id+"/orders")
+		.get("/customers/" + customer._id + "/orders")
 		.expect(200,function (err,res){
-			console.log(res.body);
-			var order = res.body[0];
-			order.should.have.property("totalCost","45");
+			var orderJson = res.body[0];
+			orderJson.should.have.property("totalCost","45");
 			done();
+		});
+	});
+
+	it("should return 200 for get one order",function(done){
+		request
+		.get("/customers/" + customer._id + "/orders/" +order._id)
+		.expect(200,function (err,res){
+			var orderJson = res.body;
+			orderJson.should.have.property("totalCost","45");
+			done();	
 		});
 	});
 

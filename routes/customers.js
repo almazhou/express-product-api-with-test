@@ -46,9 +46,20 @@ var getAllOrders = function(req,res){
 				return res.send(orders);
 			}
 			return res.send(404);
-		}else{
-			return res.send(500);
 		}
+			return res.send(500);
+	});
+}
+
+var getOrderById = function (req,res){
+	OrderModel.findOne({customer: req.params.id, _id: req.params.orderId},function(err,order){
+		if(!err){
+			if(order){
+				return res.send(order);
+			}
+			return res.send(400);
+		}
+		return res.send(500);
 	});
 }
 
@@ -59,4 +70,7 @@ customerRouter.route("/").get(getAllCustomers).post(addCustomer);
 customerRouter.route("/:id").get(getCustomerById);
 
 customerRouter.route("/:id/orders").get(getAllOrders);
+
+customerRouter.route("/:id/orders/:orderId").get(getOrderById);
+
 module.exports = customerRouter;
