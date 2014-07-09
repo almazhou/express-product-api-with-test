@@ -36,6 +36,12 @@ describe("/GET",function(){
 		});
 	});
 
+	it("should get 404 when cannot find customer",function(done){
+		request
+		.get("/customers/"+"cannotfindcustomerbyidno")
+		.expect(404,done);
+	})
+
 	afterEach(function(done){
 		mockgoose.reset();
 		done();
