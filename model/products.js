@@ -81,7 +81,7 @@ exports.getAllPricings = function(req,res){
 }
 
 exports.getPricingById = function(req,res){
-  PricingModel.findOne({_id:req.params.pricingId,product:req.params.id},function(err,pricing){
+  PricingModel.findOne({_id:req.params.pricingId,product:req.params.id},function (err,pricing){
     if(!err){
       if(pricing){
         return res.send(pricing);
@@ -91,5 +91,21 @@ exports.getPricingById = function(req,res){
       return res.send(500);
     }
   });
+}
+
+exports.addPricingToProduct = function(req,res){
+  var pricing = new PricingModel({amount:req.body.amount});
+  ProductModel.findOne(req.params.id,function (err,product){
+    if(!err){
+      if(product){
+        product.addPricing(pricing);
+        res.location("/products/"+product._id+"/pricings/"+pricing._id);
+       return res.send(201);
+      }
+      return res.send(404);
+    }else{
+      return res.send(500);
+    }
+  })
 }
 

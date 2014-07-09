@@ -9,6 +9,7 @@ Pricing = mongoose.model("Pricing");
 
 
 request = request("http://localhost:3000");
+
 describe("/GET all pricings",function(){
 	beforeEach(function (done) {
       mockgoose.reset();
@@ -57,10 +58,22 @@ describe("/GET all pricings",function(){
     .expect(404,done);
   });
 
+   it("should return 201 for add pricing",function(done){
+    request
+    .post("/products/"+product_new._id+"/pricings")
+    .send({amount:56})
+    .expect(201,function(err,res){
+        location = res.header.location;
+        location.should.containEql("/products/"+product_new._id+"/pricings/");
+        done();
+    });
+  });
+
      afterEach(function (done) {
       mockgoose.reset();
       done();
   });
 
 });
+
 
