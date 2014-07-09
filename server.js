@@ -1,11 +1,10 @@
-var express = require('express'),
-Product = require('./model/products');
-Pricing = require('./model/pricings');
-var bodyParser = require('body-parser');
+var express = require('express');
 var app = express();
 var router = express.Router();
+var bodyParser = require('body-parser');
 
 app.use(bodyParser());
+Product = require('./routes/products');
 
 router.route('/products').get(Product.getAllProducts)
 .post(Product.addProduct);
