@@ -20,7 +20,6 @@ describe("/GET all pricings",function(){
 
       product_new.addPricing(pricing,done);
 
-
   });
 
 	it("should return 200 when success",function(done){
@@ -32,5 +31,25 @@ describe("/GET all pricings",function(){
       done();
     });
 	});
+     afterEach(function (done) {
+      mockgoose.reset();
+      done();
+  });
+
+
+
 
 });
+
+describe("test 404",function(){
+     beforeEach(function (done) {
+      mockgoose.reset();
+      done();
+  });
+
+    it("should return 404 when cannot find product",function(done){
+    request
+    .get("/products/"+product_new._id+"/pricings")
+    .expect(404,done);
+  });
+})
