@@ -37,7 +37,7 @@ var addCustomer = function(req,res){
 		} 
 	});
 	res.location("/customers/"+customer._id);
-    return res.send(201);
+	return res.send(201);
 }
 
 var getAllOrders = function(req,res){
@@ -48,7 +48,7 @@ var getAllOrders = function(req,res){
 			}
 			return res.send(404);
 		}
-			return res.send(500);
+		return res.send(500);
 	});
 }
 
@@ -80,7 +80,7 @@ var placeOrder = function (req,res){
 }
 
 var getPaymentOfOrder = function (req,res){
-	PaymentModel.findOne({customer:req.params.id, order:req.params.orderId},function(err,payment){
+	PaymentModel.findOne({customer:req.params.id, order:req.params.orderId},function (err,payment){
 		if(!err){
 			if(payment){
 				return res.send(payment);
@@ -89,6 +89,22 @@ var getPaymentOfOrder = function (req,res){
 		}
 		return res.send(500);
 	});
+}
+
+var payMoney = function (req,res){
+	var payment = new PaymentModel({amount : req.body.amount});
+	OrderModel.findOne({customer: req.params.id, _id : req.params.orderId}, function (err, order){
+		if(!err){
+			if(order){
+				order.pay(payment);
+				res.location("/customers/"+ req.params.id + "/orders/" + order._id + "/payment");
+				return res.send(201);
+			}
+			return res.send(404);
+		}
+		return res.send(500);
+	});	
+
 }
 
 var customerRouter = express.Router();
@@ -101,6 +117,6 @@ customerRouter.route("/:id/orders").get(getAllOrders).post(placeOrder);
 
 customerRouter.route("/:id/orders/:orderId").get(getOrderById);
 
-customerRouter.route("/:id/orders/:orderId/payment").get(getPaymentOfOrder);
+customerRouter.route("/:id/orders/:orderId/payment").get(getPaymentOfOrder).post(payMoney);
 
 module.exports = customerRouter;
